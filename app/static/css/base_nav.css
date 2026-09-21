@@ -1,0 +1,95 @@
+/* Configurações Globais */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Barra de Navegação */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Container do Toggle no NAV */
+.loja-status-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+/* --- BOTÃO TOGGLE (SWITCH) --- */
+
+/* Esconde o checkbox padrão do navegador */
+.switch input {
+    display: none;
+}
+
+/* O corpo do botão Toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+/* O fundo do Botão (Vermelho quando OFFLINE por padrão) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    background-color: #e74c3c; /* Vermelho */
+    transition: background-color 0.3s;
+    border-radius: 34px;
+}
+
+/* A bolinha branca do botão */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #ffffff; /* Sempre branca */
+    transition: transform 0.3s;
+    border-radius: 50%;
+}
+
+/* Quando marcado (ONLINE): Muda o fundo para Verde */
+input:checked + .slider {
+    background-color: #2ecc71; /* Verde */
+}
+
+/* Move a bolinha branca para o lado direito ao ativar */
+input:checked + .slider:before {
+    transform: translateX(24px);
+}

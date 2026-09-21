@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "nome": "Pão Francês",
+    "disponivel": false
+  },
+  {
+    "id": 2,
+    "nome": "Croissant",
+    "disponivel": false
+  }
+]

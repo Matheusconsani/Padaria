@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Padaria - Loja</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base_nav.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">🏪 Loja</a>
+        {% if session.get('logado') %}
+            <a href="/admin/painel">⚙️ Painel Admin</a>
+            <a href="/admin/logout">🚪 Sair</a>
+        {% else %}
+            <a href="/admin/login">🔑 Entrar (Admin)</a>
+        {% endif %}
+    </nav>
+
+    {% if not loja_aberta %}
+        <div style="background-color: #ffcccc; padding: 15px; border-radius: 8px; color: #990000;">
+            <h2>⚠️ A Padaria está FECHADA no momento!</h2>
+            <p>Não é possível realizar compras ou pedidos agora. Volte mais tarde.</p>
+        </div>
+    {% else %}
+        <h1>Produtos da Padaria</h1>
+        <ul>
+            {% for produto in produtos %}
+                <li>
+                    {{ produto.nome }} - 
+                    {% if produto.disponivel %}
+                        <strong>Disponível</strong>
+                    {% else %}
+                        <em>Indisponível</em>
+                    {% endif %}
+                </li>
+            {% else %}
+                <li>Nenhum produto cadastrado.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

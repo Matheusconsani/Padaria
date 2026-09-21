@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">🏪 Ver Loja</a>
+        <a href="/admin/painel">⚙️ Painel Admin</a>
+        <a href="/admin/logout">🚪 Sair</a>
+
+        <div class="loja-status-container">
+            <span>
+                {% if loja_aberta %}
+                    <strong style="color: #2ecc71;">ONLINE</strong>
+                {% else %}
+                    <strong style="color: #e74c3c;">OFFLINE</strong>
+                {% endif %}
+            </span>
+
+            <form action="/admin/loja/toggle" method="POST" id="form-toggle-nav">
+                <label class="switch">
+                    <input type="checkbox" onchange="document.getElementById('form-toggle-nav').submit()" {% if loja_aberta %}checked{% endif %}>
+                    <span class="slider"></span>
+                </label>
+            </form>
+        </div>
+    </nav>
+
+    <h1>Painel do Administrador</h1>
+
+    <h2>Adicionar Novo Produto</h2>
+    <form action="/admin/produto/adicionar" method="POST">
+        <input type="text" name="nome" placeholder="Nome do Produto" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <hr>
+
+    <h2>Gerenciar Produtos</h2>
+    <ul>
+        {% for produto in produtos %}
+            <li>
+                <strong>{{ produto.nome }}</strong>
+                <span>Status: {% if produto.disponivel %}🟢 Disponível{% else %}🔴 Indisponível{% endif %}</span>
+
+                <form action="/admin/produto/status/{{ produto.id }}" method="POST">
+                    <button type="submit">Mudar Status</button>
+                </form>
+
+                <form action="/admin/produto/remover/{{ produto.id }}" method="POST">
+                    <button type="submit">Remover</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Nenhum produto cadastrado.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
