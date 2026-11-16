@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Página não encontrada{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h1>404</h1>
+    <p>Ops! A página que você procurou não existe na padaria.</p>
+    <a href="{{ url_for('padaria.produtos') }}">Voltar para o início</a>
+</div>
+{% endblock %}

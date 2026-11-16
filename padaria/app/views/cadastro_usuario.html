@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Criar Conta - La Boulangerie{% endblock %}
+
+{% block content %}
+<div class="card form-box">
+    <h2>Criar Nova Conta</h2>
+    <form method="POST" action="{{ url_for('auth.cadastro') }}">
+        <label>Novo Usuário:</label>
+        <input type="text" name="username" minlength="3" required>
+        
+        <label>Senha:</label>
+        <input type="password" name="senha" minlength="4" required>
+        
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p class="auth-switch-text">
+        Já possui uma conta? 
+        <a href="{{ url_for('auth.login') }}" class="auth-switch-link">Voltar ao login</a>
+    </p>
+</div>
+{% endblock %}
