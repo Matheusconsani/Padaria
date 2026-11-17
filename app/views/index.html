@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Início - La Boulangerie{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Nossos Produtos Fresquinhos</h1>
+    <p>Feitos artesanalmente todos os dias com ingredientes selecionados.</p>
+    
+    <form method="GET" action="{{ url_for('padaria.index') }}" class="search-bar">
+        <input type="text" name="busca" value="{{ busca }}" placeholder="O que você deseja saborear hoje?">
+        <button type="submit">Buscar</button>
+        {% if busca %}
+            <a href="{{ url_for('padaria.index') }}" class="btn-limpar">Limpar</a>
+        {% endif %}
+    </form>
+</section>
+
+{% if produtos %}
+    <div class="vitrine-grid">
+        {% for prod in produtos %}
+            {% set img_src = prod.imagem_url if prod.imagem_url.startswith('http') else url_for('static', filename=prod.imagem_url) %}
+            <article class="produto-card">
+                <div class="produto-img-box">
+                    <img src="{{ img_src }}" alt="{{ prod.nome }}" onerror="this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=80'">
+                    <span class="badge-categoria">{{ prod.categoria_nome }}</span>
+                </div>
+                <div class="produto-info">
+                    <h3>{{ prod.nome }}</h3>
+                    <p class="produto-subtitulo">{{ prod.subtitulo }}</p>
+                    <div class="produto-footer">
+                        <span class="produto-preco">R$ {{ "%.2f"|format(prod.preco)|replace('.', ',') }}</span>
+                        <span class="produto-estoque">
+                            {% if prod.estoque > 0 %}
+                                {{ prod.estoque }} un. disponíveis
+                            {% else %}
+                                <strong style="color: #b91c1c;">Esgotado</strong>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% if prod.estoque > 0 %}
+                        <form method="POST" action="{{ url_for('padaria.adicionar_carrinho', id=prod.id) }}">
+                            <button type="submit" class="btn-add-cart">+ Adicionar ao Carrinho</button>
+                        </form>
+                    {% else %}
+                        <button type="button" class="btn-add-cart" disabled style="background-color: #6b7280; cursor: not-allowed; opacity: 0.7;">
+                            Produto Esgotado
+                        </button>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card" style="text-align: center;">
+        <p>Nenhum produto encontrado na vitrine no momento.</p>
+    </div>
+{% endif %}
+{% endblock %}

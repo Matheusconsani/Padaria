@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Categorias - Padaria{% endblock %}
+
+{% block content %}
+<h2>Gerenciar Categorias</h2>
+
+<div class="card">
+    <h3>Nova Categoria</h3>
+    <form method="POST" action="{{ url_for('padaria.categorias') }}" class="inline-form">
+        <input type="text" name="nome" placeholder="Ex: Pães Doces, Bebidas..." required>
+        <button type="submit">Adicionar</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Categorias Cadastradas</h3>
+    {% if categorias %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome (Editar)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in categorias %}
+                <tr>
+                    <td>{{ cat.id }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('padaria.editar_categoria', id=cat.id) }}" class="inline-form">
+                            <input type="text" name="nome" value="{{ cat.nome }}" required>
+                            <button type="submit" class="btn-edit">Salvar</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url_for('padaria.excluir_categoria', id=cat.id) }}" onsubmit="return confirm('Excluir categoria apagará todos os produtos dela. Continuar?');">
+                            <button type="submit" class="btn-delete">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhuma categoria cadastrada ainda.</p>
+    {% endif %}
+</div>
+{% endblock %}
